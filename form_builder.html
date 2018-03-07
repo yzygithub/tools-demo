@@ -9,6 +9,7 @@
   <meta name="description" content="">
   <link rel="shortcut icon" href="favicon.png">
   <link href="./zui/css/zui.min.css" rel="stylesheet">
+  <link href="./css/checkbox&radio.css" rel="stylesheet">
 
   <!-- <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
   <!-- <link href="https://cdn.staticfile.org/font-awesome/4.4.0/css/font-awesome.css?v=4.4.0" rel="stylesheet"> -->
@@ -18,7 +19,7 @@
 
   <style>
     .gray-bg {
-      background-color: #f3f3f4;
+      background-color: #f7f7f7;
     }
 
     .wrapper {
@@ -28,57 +29,6 @@
     .wrapper-content {
       padding: 20px;
     }
-    .ibox {
-      clear: both;
-      margin-bottom: 25px;
-      margin-top: 0;
-      padding: 0;
-    }
-
-    .ibox-title {
-      -moz-border-bottom-colors: none;
-      -moz-border-left-colors: none;
-      -moz-border-right-colors: none;
-      -moz-border-top-colors: none;
-      background-color: #fff;
-      border-color: #e7eaec;
-      -webkit-border-image: none;
-      -o-border-image: none;
-      border-image: none;
-      border-style: solid solid none;
-      border-width: 4px 0 0;
-      color: inherit;
-      margin-bottom: 0;
-      padding: 14px 15px 7px;
-      min-height: 48px;
-    }
-
-    .ibox-title h5 {
-      display: inline-block;
-      font-size: 14px;
-      margin: 0 0 7px;
-      padding: 0;
-      text-overflow: ellipsis;
-      float: left;
-    }
-
-    .ibox-content {
-      clear: both;
-    }
-
-    .ibox-content {
-      background-color: #fff;
-      color: inherit;
-      padding: 15px 20px 20px;
-      border-color: #e7eaec;
-      -webkit-border-image: none;
-      -o-border-image: none;
-      border-image: none;
-      border-style: solid solid none;
-      border-width: 1px 0;
-    }
-
-    /*  */
 
     .droppable-active {
       background-color: #ffe !important
@@ -86,11 +36,21 @@
 
     .form-body .col-md-6,
     .form-body .col-md-12 {
-      min-height: 400px
+      min-height: 450px
     }
 
     .draggable {
-      cursor: move
+      cursor: move;
+    }
+
+    .inl-blk {
+      display: inline-block;
+    }
+
+    .head-tools {
+      display: inline-block;
+      float: right;
+      margin-top: 6px;
     }
   </style>
 
@@ -100,9 +60,10 @@
   <div class="wrapper wrapper-content">
 
     <div class="row">
-      <div class="col-sm-5">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
+      <!--tool left -->
+      <div class="col-sm-4">
+        <div class="panel">
+          <div class="panel-heading">
             <h5>元素</h5>
             <div class="ibox-tools">
               <a class="collapse-link">
@@ -124,11 +85,11 @@
               </a>
             </div>
           </div>
-          <div class="ibox-content">
-            <div class="alert alert-info draggable">
+          <div class="panel-body">
+            <div class="alert alert-info">
               拖拽左侧的表单元素到右侧区域，即可生成相应的HTML代码，表单代码，轻松搞定！
             </div>
-            <form role="form" class="form-horizontal m-t">
+            <form role="form" class="form-horizontal">
               <div class="form-group draggable">
                 <label class="col-sm-3 control-label">文本框：</label>
                 <div class="col-sm-9">
@@ -171,35 +132,39 @@
                 </label>
 
                 <div class="col-sm-9">
-                  <label class="radio-inline">
-                    <input type="radio" checked="" value="option1" id="optionsRadios1" name="optionsRadios"> 选项1
-                  </label>
-                  <label class="radio-inline">
-                    <input type="radio" value="option2" id="optionsRadios2" name="optionsRadios"> 选项2
-                  </label>
-
+                  <div class="radio-custom radio-primary radio-inline">
+                    <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                    <label for="inputRadiosUnchecked">未选中</label>
+                  </div>
+                  <div class="radio-custom radio-primary radio-inline">
+                    <input type="radio" id="inputRadiosChecked" name="inputRadios" checked="">
+                    <label for="inputRadiosChecked">选中</label>
+                  </div>
                 </div>
               </div>
               <div class="form-group draggable">
                 <label class="col-sm-3 control-label">复选框：</label>
 
                 <div class="col-sm-9">
-                  <label class="checkbox-inline">
-                    <input type="checkbox" value="option1" id="inlineCheckbox1"> 选项1
-                  </label>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" value="option2" id="inlineCheckbox2"> 选项2
-                  </label>
-                  <label class="checkbox-inline">
-                    <input type="checkbox" value="option3" id="inlineCheckbox3"> 选项3
-                  </label>
+                  <div class="checkbox-custom checkbox-inline">
+                    <input type="checkbox" id="inputChecked" checked="">
+                    <label for="inputChecked">选中1</label>
+                  </div>
+                  <div class="checkbox-custom checkbox-inline">
+                    <input type="checkbox" id="inputChecked2" checked="">
+                    <label for="inputChecked2">选中2</label>
+                  </div>
+                  <div class="checkbox-custom checkbox-inline">
+                    <input type="checkbox" id="inputChecked3" checked="">
+                    <label for="inputChecked3">选中3</label>
+                  </div>
                 </div>
               </div>
               <div class="hr-line-dashed"></div>
               <div class="form-group draggable">
                 <div class="col-sm-12 col-sm-offset-3">
-                  <button class="btn btn-primary" type="submit">保存内容</button>
-                  <button class="btn btn-white" type="submit">取消</button>
+                  <button class="btn btn-primary" type="button">保存内容</button>
+                  <button class="btn btn-white" type="button">取消</button>
                 </div>
               </div>
             </form>
@@ -207,14 +172,21 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-7">
-        <div class="ibox float-e-margins">
-          <div class="ibox-title">
-            <h5>拖拽左侧表单元素到此区域</h5>
+      <!--tool right -->
+      <div class="col-sm-8">
+        <div class="panel">
+          <div class="panel-heading">
+            <h5 class="inl-blk">拖拽左侧表单元素到此区域</h5>
+            <div class="head-tools">
+              请选择显示的列数：
+              <select id="n-columns">
+                <option value="1">显示1列</option>
+                <option value="2">显示2列</option>
+              </select>
+            </div>
           </div>
-
-          <div class="ibox-content">
-            <div class="row form-body form-horizontal m-t">
+          <div class="panel-body">
+            <div class="row form-body form-horizontal" contenteditable="true">
               <div class="col-md-12 droppable sortable"></div>
               <div class="col-md-6 droppable sortable" style="display: none;"></div>
               <div class="col-md-6 droppable sortable" style="display: none;"></div>
@@ -227,9 +199,11 @@
       </div>
     </div>
   </div>
-  <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script>
-  <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
-  <script src="js/content.min-v=1.0.0.js"></script>
+  <script src="http://cdn.bootcss.com/zui/1.8.1/lib/jquery/jquery.js"></script>
+  <script src="http://cdn.bootcss.com/zui/1.8.1/js/zui.min.js"></script>
+  <!-- <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script> -->
+  <!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
+  <!--jquery-ui.js 无法替代，使用方法与zui的dragsable和droppable有区别  -->
   <script src="js/jquery-ui-1.10.4.min.js"></script>
   <script src="js/plugins/beautifyhtml/beautifyhtml.js"></script>
   <script>
