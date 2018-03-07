@@ -11,12 +11,6 @@
   <link href="./zui/css/zui.min.css" rel="stylesheet">
   <link href="./css/checkbox&radio.css" rel="stylesheet">
 
-  <!-- <link href="https://cdn.bootcss.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet"> -->
-  <!-- <link href="https://cdn.staticfile.org/font-awesome/4.4.0/css/font-awesome.css?v=4.4.0" rel="stylesheet"> -->
-  <!-- <link href="css/plugins/summernote/summernote.css" rel="stylesheet"> -->
-  <!-- <link href="css/plugins/summernote/summernote-bs3.css" rel="stylesheet"> -->
-  <!-- <link href="css/style.min-v=4.1.0.css" rel="stylesheet"> -->
-
   <style>
     .gray-bg {
       background-color: #f7f7f7;
@@ -51,6 +45,10 @@
       display: inline-block;
       float: right;
       margin-top: 6px;
+    }
+
+    .btn-div {
+      margin-top: 20px;
     }
   </style>
 
@@ -191,9 +189,16 @@
               <div class="col-md-6 droppable sortable" style="display: none;"></div>
               <div class="col-md-6 droppable sortable" style="display: none;"></div>
             </div>
-            <button type="submit" class="btn btn-warning" data-clipboard-text="testing" id="copy-to-clipboard">
-              复制代码
-            </button>
+            <div class="btn-div">
+              <button type="submit" class="btn btn-warning" data-clipboard-text="testing" id="copy-to-clipboard" style="display: block;margin-bottom: 10px;">
+                复制代码
+              </button>
+              <button type="submit" class="btn btn-success" id="downloadFile">
+                下载代码
+              </button>
+              <input type="text" class="form-control file-name" placeholder="请输入文件名" style="display: inline-block;width: 100px;margin-left:10px;">
+              <em>（如果没有输入文件名或者后缀不为.html，则默认为form.html）</em>
+            </div>
           </div>
         </div>
       </div>
@@ -201,8 +206,6 @@
   </div>
   <script src="http://cdn.bootcss.com/zui/1.8.1/lib/jquery/jquery.js"></script>
   <script src="http://cdn.bootcss.com/zui/1.8.1/js/zui.min.js"></script>
-  <!-- <script src="https://cdn.staticfile.org/jquery/2.1.4/jquery.min.js"></script> -->
-  <!-- <script src="https://cdn.bootcss.com/bootstrap/3.3.6/js/bootstrap.min.js"></script> -->
   <!--jquery-ui.js 无法替代，使用方法与zui的dragsable和droppable有区别  -->
   <script src="js/jquery-ui-1.10.4.min.js"></script>
   <script src="js/plugins/beautifyhtml/beautifyhtml.js"></script>
@@ -233,7 +236,7 @@
         ], function (i, c) {
           $copy.find("." + c).removeClass(c).removeAttr("style")
         });
-        var html = html_beautify($copy.html());
+        var html = html_beautify($copy.html()); //要复制的HTML代码
         $copy.remove();
         $modal = get_modal(html).modal("show");
         $modal.find(".btn").remove();
@@ -321,7 +324,49 @@
       $(this).parent().parent().remove()
     });
   </script>
+  <script>
+    // 下载文件
+    function fake_click(obj) {
+      var ev = document.createEvent("MouseEvents");
+      ev.initMouseEvent(
+        "click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null
+      );
+      obj.dispatchEvent(ev);
+    }
 
+    function export_raw(name, data) {
+      var urlObject = window.URL || window.webkitURL || window;
+
+      var export_blob = new Blob([data]);
+
+      var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+      save_link.href = urlObject.createObjectURL(export_blob);
+      save_link.download = name;
+      fake_click(save_link);
+    }
+    // var test = document.getElementsByTagName('html')[0].outerHTML;
+
+    $('#downloadFile').click(function () {
+      var $copy = $(".form-body").clone().appendTo(document.body);
+      $copy.find(".tools, :hidden").remove();
+      $.each(["draggable", "droppable", "sortable", "dropped", "ui-sortable", "ui-draggable", "ui-droppable",
+        "form-body"
+      ], function (i, c) {
+        $copy.find("." + c).removeClass(c).removeAttr("style")
+      });
+      var download = html_beautify($copy.html()); //要下载的HTML代码
+      console.log(download);
+      var fileName = $('.file-name').val()
+      var reg= "(.html)$";
+      var re=new RegExp(reg);
+      if(!fileName||!re.test(fileName)) {
+        fileName = 'form.html'
+      }
+      console.log(fileName)
+      export_raw(fileName, download);
+      $copy.remove();
+    });
+  </script>
 </body>
 
 </html>
