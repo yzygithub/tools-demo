@@ -33,6 +33,15 @@
       min-height: 450px
     }
 
+    .form-edit {
+      margin: 0 10px;
+      padding: 10px 0;
+    }
+
+    .form-edit:focus {
+      outline: 1px solid #ddd;
+    }
+
     .draggable {
       cursor: move;
     }
@@ -184,7 +193,7 @@
             </div>
           </div>
           <div class="panel-body">
-            <div class="row form-body form-horizontal" contenteditable="true">
+            <div class="row form-body form-horizontal form-edit" contenteditable="true">
               <div class="col-md-12 droppable sortable"></div>
               <div class="col-md-6 droppable sortable" style="display: none;"></div>
               <div class="col-md-6 droppable sortable" style="display: none;"></div>
@@ -357,9 +366,9 @@
       var download = html_beautify($copy.html()); //要下载的HTML代码
       console.log(download);
       var fileName = $('.file-name').val()
-      var reg= "(.html)$";
-      var re=new RegExp(reg);
-      if(!fileName||!re.test(fileName)) {
+      var reg = "(.html)$";
+      var re = new RegExp(reg);
+      if (!fileName || !re.test(fileName)) {
         fileName = 'form.html'
       }
       console.log(fileName)
