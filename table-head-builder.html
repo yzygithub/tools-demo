@@ -169,7 +169,7 @@
 <script src="http://cdn.bootcss.com/zui/1.8.1/lib/jquery/jquery.js"></script>
 <script src="http://cdn.bootcss.com/zui/1.8.1/js/zui.min.js"></script>
 <script src="./zui/lib/datagrid/zui.datagrid.min.js"></script>
-<script src="js/plugins/beautifyhtml/beautifyhtml.js"></script>
+<!-- <script src="js/plugins/beautifyhtml/beautifyhtml.js"></script> -->
 <script>
   // 提示消息
   $('[data-toggle="tooltip"]').tooltip({
@@ -192,12 +192,16 @@
   //  增加单元格
   function addCellR() {
     var th = '<th>项目</th>'
-    $('#tableDataGrid tr').append(th)
+    var td = '<td>项目</td>'
+    $('#tableDataGrid thead tr').append(th)
+    $('#tableDataGrid tbody tr').append(td)
   }
 
   function addCellF() {
     var th = '<th>项目</th>'
-    $('#tableDataGrid tr').prepend(th)
+    var td = '<td>项目</td>'
+    $('#tableDataGrid thead tr').prepend(th)
+    $('#tableDataGrid tbody tr').prepend(td)
   }
   // 减少单元格
   function deleteCellF() {
