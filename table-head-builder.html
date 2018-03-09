@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表单构建器</title>
+  <meta name="keywords" content="">
+  <meta name="description" content="">
+  <link rel="shortcut icon" href="favicon.png">
+  <link href="./zui/css/zui.min.css" rel="stylesheet">
+  <!-- <link href="./css/checkbox&radio.css" rel="stylesheet"> -->
+  <link href="./zui/lib/datagrid/zui.datagrid.min.css" rel="stylesheet">
+  <style>
+    .container {
+      margin-top: 50px;
+    }
+
+    .btn {
+      margin-bottom: 5px;
+    }
+
+    .btn-toolbar {
+      margin-bottom: 20px;
+    }
+
+    .panel-body {
+      padding: 0;
+    }
+
+    .tableEdit {
+      margin: 5px;
+      padding: 30px 10px;
+    }
+
+    .tableEdit:focus {
+      outline: 1px solid #ccc;
+    }
+
+    .icon-arrow-left {
+      transform: rotate(45deg);
+      display: inline-block;
+    }
+
+    .plusR,
+    .deleteR {
+      color: RED;
+    }
+  </style>
+
+</head>
+
+<body>
+  <div class="container">
+    <div class="btn-toolbar">
+      <div class="btn-group">
+        <button class="btn" data-toggle="tooltip" title="在开头增加单元格" onclick="addCellF()">
+          <i class="icon icon-plus"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="在结尾增加单元格" onclick="addCellR()">
+          <i class="icon icon-plus plusR"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="在开头减少单元格" onclick="deleteCellF()">
+          <i class="icon icon-minus"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="在结尾减少单元格" onclick="deleteCellR()">
+          <i class="icon icon-minus deleteR"></i>
+        </button>
+      </div>
+      <div class="btn-group">
+        <button class="btn" data-toggle="tooltip" title="隔行交替样式" onclick="setStripe()">
+          <i class="icon icon-bars"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="切换是否有边框" onclick="setBorder()">
+          <i class="icon icon-table"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="响应鼠标悬停" onclick="setHover()">
+          <i class="icon icon-arrow-left"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="将表格的宽度设置为 auto" onclick="setAuto()">
+          <i class="icon icon-resize-small"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip-info" title="说明：用datagird渲染之后，这几个classname将不起作用。">
+          <i class="icon icon-info-sign"></i>
+        </button>
+      </div>
+      <div class="btn-group">
+        <button class="btn" data-toggle="tooltip" title="隔行交替样式(渲染之后才能看出效果)" onclick="setStripeGrid()">
+          <i class="icon icon-bars"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="切换是否有边框(渲染之后才能看出效果)" onclick="setBorderGrid()">
+          <i class="icon icon-table"></i>
+        </button>
+        <button class="btn" id="btn-sort" data-toggle="tooltip" title="是否排序" onclick="setSort()">
+          <i class="icon icon-sort"></i>
+        </button>
+        <button class="btn" id="btn-check" data-toggle="tooltip" title="是否可选" onclick="setCheck()">
+          <i class="icon icon-checked"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="渲染" onclick="render()">
+          <i class="icon icon-building"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip" title="重新渲染" onclick="rerender()">
+          <i class="icon icon-repeat"></i>
+        </button>
+        <button class="btn" data-toggle="tooltip-info" title="说明：这是针对用datagird渲染之后的一些设置">
+          <i class="icon icon-info-sign"></i>
+        </button>
+      </div>
+      <button class="btn" data-toggle="tooltip" title="切换显示代码">
+        <i class="icon icon-code"></i>
+      </button>
+      <button class="btn btn-success" data-toggle="tooltip" title="只下载表头部分" onclick="downloadFile()">下载文件</button>
+      <input type="text" class="form-control file-name" data-toggle="tooltip" title="如果没有输入文件名或者后缀不为.table-head.html" placeholder="请输入文件名"
+        style="display: inline-block;width: 100px;margin-left:10px;">
+
+    </div>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+        表格编辑器 (点击表格，可直接编辑)
+      </div>
+      <div class="panel-body">
+        <div class="tableEdit" contenteditable="true">
+          <div id="datagrid" class="datagrid">
+            <table class="table" id="tableDataGrid">
+              <thead>
+                <tr>
+                  <th>时间</th>
+                  <th>英雄</th>
+                  <th>动作</th>
+                  <th>目标</th>
+                  <th>描述</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>00:11:12</td>
+                  <td>幻影刺客</td>
+                  <td>击杀</td>
+                  <td>斧王</td>
+                  <td>幻影刺客击杀了斧王。</td>
+                </tr>
+                <tr>
+                  <td>00:11:13</td>
+                  <td>幻影刺客2</td>
+                  <td>击杀2</td>
+                  <td>斧王2</td>
+                  <td>幻影刺客击杀了斧王2。</td>
+                </tr>
+                <tr>
+                  <td>00:11:14</td>
+                  <td>幻影刺客3</td>
+                  <td>击杀3</td>
+                  <td>斧王3</td>
+                  <td>幻影刺客击杀了斧王3。</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="panel-footer">
+        <p>使用zui的数据表格②进行渲染，功能更强大。支持远程数据显示、排序、搜索以及海量数据显示。</p>
+        <p>但是，数据表格②可以完全根据数据渲染出表格，这个工具也就没有意义了。</p>
+      </div>
+    </div>
+  </div>
+</body>
+<script src="http://cdn.bootcss.com/zui/1.8.1/lib/jquery/jquery.js"></script>
+<script src="http://cdn.bootcss.com/zui/1.8.1/js/zui.min.js"></script>
+<script src="./zui/lib/datagrid/zui.datagrid.min.js"></script>
+<script src="js/plugins/beautifyhtml/beautifyhtml.js"></script>
+<script>
+  // 提示消息
+  $('[data-toggle="tooltip"]').tooltip({
+    placement: 'top'
+  });
+  $('[data-toggle="tooltip-info"]').tooltip({
+    placement: 'bottom'
+  });
+  // 渲染datagrid
+  function render() {
+    $('#tableDataGrid').datagrid();
+  }
+  // 重新渲染datagrid
+  function rerender() {
+    var tableDataGrid = $('#tableDataGrid').data('zui.datagrid');
+    console.log(tableDataGrid)
+    tableDataGrid.render();
+    console.log('ok')
+  }
+  //  增加单元格
+  function addCellR() {
+    var th = '<th>项目</th>'
+    $('#tableDataGrid tr').append(th)
+  }
+
+  function addCellF() {
+    var th = '<th>项目</th>'
+    $('#tableDataGrid tr').prepend(th)
+  }
+  // 减少单元格
+  function deleteCellF() {
+    if (tableDataGrid.rows.item(0).cells.length > 0) {
+      $('#tableDataGrid thead th:first').remove()
+      for (i = 1; i < tableDataGrid.rows.length; i++) {
+        tableDataGrid.rows.item(i).deleteCell(0)
+      }
+    }
+  }
+
+  function deleteCellR() {
+    if (tableDataGrid.rows.item(0).cells.length > 0) {
+      $('#tableDataGrid thead th:last').remove()
+      for (i = 1; i < tableDataGrid.rows.length; i++) {
+        // console.log(tableDataGrid.rows.item(0).cells.length)
+        var n = tableDataGrid.rows.item(0).cells.length
+        if (n > -1) {
+          tableDataGrid.rows.item(i).deleteCell(n)
+        }
+      }
+    }
+  }
+  // 设置隔行样式
+  function setStripe() {
+    $("#tableDataGrid").toggleClass("table-striped");
+  }
+  // 设置边框
+  function setBorder() {
+    $("#tableDataGrid").toggleClass("table-bordered");
+  }
+  // 设置响应鼠标悬停
+  function setHover() {
+    $("#tableDataGrid").toggleClass("table-hover");
+  }
+  // 将表格的宽度设置为 auto
+  function setAuto() {
+    $("#tableDataGrid").toggleClass("table-auto");
+  }
+  // 设置datagrid隔行样式
+  function setStripeGrid() {
+    $("#datagrid").toggleClass("datagrid-striped");
+  }
+  // 设置datagrid边框
+  function setBorderGrid() {
+    $("#datagrid").toggleClass("datagrid-borderless");
+  }
+  // 设置排序 jquery1.8之后toggle()方法被废弃
+  function setSort() {
+    console.log($('#tableDataGrid').attr('data-sortable'))
+    if (!$('#tableDataGrid').attr('data-sortable')) {
+      $('#tableDataGrid').attr('data-sortable', 'true')
+    } else {
+      $('#tableDataGrid').removeAttr('data-sortable')
+    }
+  }
+  // 设置可选
+  function setCheck() {
+    console.log($('#tableDataGrid').attr('data-checkable'))
+    if (!$('#tableDataGrid').attr('data-checkable')) {
+      $('#tableDataGrid').attr('data-checkable', 'true')
+    } else {
+      $('#tableDataGrid').removeAttr('data-checkable')
+    }
+  }
+  // 下载文件
+  function downloadFile() {
+    var $copy = $("#datagrid").clone().appendTo(document.body);
+    $copy.find("tbody tr").remove();
+    // console.log($copy);
+    download = $copy.html();
+    // console.log(download);
+    var fileName = $('.file-name').val()
+    var reg = "(.html)$";
+    var re = new RegExp(reg);
+    if (!fileName || !re.test(fileName)) {
+      fileName = 'table-head.html'
+    }
+    console.log(fileName)
+    export_raw(fileName, download);
+    $copy.remove();    
+  }
+  // 下载文件
+  function fake_click(obj) {
+    var ev = document.createEvent("MouseEvents");
+    ev.initMouseEvent(
+      "click", true, false, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null
+    );
+    obj.dispatchEvent(ev);
+  }
+
+  function export_raw(name, data) {
+    var urlObject = window.URL || window.webkitURL || window;
+    var export_blob = new Blob([data]);
+    var save_link = document.createElementNS("http://www.w3.org/1999/xhtml", "a")
+    save_link.href = urlObject.createObjectURL(export_blob);
+    save_link.download = name;
+    fake_click(save_link);
+  }
+</script>
+
+</html>
